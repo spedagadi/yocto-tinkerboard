@@ -1,0 +1,144 @@
+This README file contains information on building the meta-rockchip
+BSP layer, and booting images.
+Please see the corresponding sections below for details.
+
+
+Dependencies
+============
+
+This layer depends on:
+
+  {
+  	URI: git://git.openembedded.org/bitbake
+	branch: master
+
+  	AND
+
+  	URI: git://git.openembedded.org/openembedded-core
+  	layers: meta
+	branch: master
+	  at least 039211f0d8fe79d07b65f2f02e299b9656034214
+	  from Sep 4, 2015
+  }
+
+  OR
+
+  URI: git://git.yoctoproject.org/poky
+  branch: master
+  Tag: 1.9_M2
+
+
+Contributing
+============
+
+Please submit any patches against this BSP to the Yocto Project mailing list:
+yocto@yoctoproject.org and cc: the following maintainers:
+
+Maintainer: Romain Perier <romain.perier@gmail.com>
+Maintainer: Trevor Woerner <twoerner@gmail.com>
+
+When sending patches please take a look at the contribution guide available
+here: https://wiki.yoctoproject.org/wiki/Contribution_Guidelines
+
+Please also send your patches by using git send-email and prefix your subject
+by "[meta-rockchip]".
+
+Table of Contents
+=================
+
+  I. Configure yocto/oe environment
+ II. Building a second level bootloader based on kexec
+III. Booting your device
+ IV. Performance
+
+I. Configure yocto/oe environment
+========================================
+
+In order to build an image with BSP support for a given release, you
+need to download the corresponding tools described in the "Dependencies"
+section. Be sure that everything is in the same directory.
+
+~ $ mkdir yocto; cd yocto
+~/yocto $ git clone git://git.yoctoproject.org/poky -b fido
+~/yocto $ git clone git://git.yoctoproject.org/meta-rockchip
+
+Then you need to source the configuration script:
+~/yocto $ source poky/oe-init-build-env
+
+Having done that, you can build a
+image for a rockchip board by adding the location of the meta-rockchip
+layer to bblayers.conf, along with any other layers needed (to access
+common metadata shared between BSPs) e.g.:
+
+  /path/to/yocto/poky/meta     \
+  /path/to/yocto/meta-rockchip \
+
+To enable the build for a specific board, add its name in the MACHINE variable to local.conf:
+
+  MACHINE ?= "radxarock"
+
+All supported machines can be found in meta-rockchip/conf/machine.
+
+You should then be able to build a image as such:
+
+  $ bitbake core-image-minimal
+
+At the end of a successful build, you should have an image in
+/path/to/yocto/build/tmp/deploy/<MACHINE>/<IMAGE_NAME>. See Yocto
+manual for more details.
+
+II. Building a second level bootloader based on kexec
+=====================================================
+
+This BSP contains "Petitboot", a kexec-based second leval bootloader.
+As all available bootloaders provided by Rockchip are very limited and do not allow
+to boot from a block device containing a file system or from the network, we decided
+to use Petitboot, which just needs a minimalistic kernel to work.
+
+See https://www.kernel.org/pub/linux/kernel/people/geoff/petitboot/petitboot.html
+
+In a terminal, just type the following command:
+~/yocto $ bitbake linux-petitboot
+
+At the end of a successful build, you should have an image
+/path/to/yocto/build/tmp/deploy/<MACHINE>/RK3XPetitbootLoader-<MACHINE>.bin.
+This image is already to the right format, so you can directly flash it as a
+kernel image to a Rockchip device with upgrade_tool.
+
+III. Booting your device
+========================
+
+Petitboot allows you to boot a kernel from the EMMC, an SDCARD, an USB storage
+device or even tthe network (it just needs to be supported by the Linux kernel).
+In order to do so, you need to put a configuration file at the root of the target
+device. Petitboot supports differents kind of configuration files, in this example
+we will an SDCARD and a kboot configuration file.
+
+Copy your kernel image and your dtb under the /boot directory, on your device.
+Then create a kboot.conf in / and add the following content:
+
+linux-next from sdcard='/boot/zImage dtb=/boot/<MACHINE>.dtb root=/dev/mmcblk0p2 rootwait console=ttyS2,115200 earlyprintk'
+linux-next from tftp='tftp://192.168.0.5/zImage dtb=tftp://192.168.0.5/<MACHINE>.dtb root=/dev/mmcblk0p2 rootwait console=ttyS2,115200 earlyprintk'
+# You can also use nfs
+# nfs='nfs://192.168.0.5/fire/boot/vmlinux.strip root=/dev/nfs rw ip=dhcp video=1080p fbcon=rotate:3'
+# Or http and nfs mixed together
+# http_nfs='http://192.168.0.5/ice/boot/vmlinux.strip nfs://192.168.0.5/ice/boot/initrd root=/dev/nfs'
+
+Then, plug your SDCARD into your Rockchip device and power on the board. If
+everything worked fine, Petitboot should be started automatically and list all 
+entries found in the configuration file.
+
+IV. Performance
+===============
+
+By default a BSP layer should not be tuning a build, this is a DISTRO-level
+decision. As such the default machine settings are meant to be the lowest
+common denominator in order to maximize generality. If you are interested in
+tweaking your build to maximize performance you can either use a DISTRO that
+has these same goals, or you can add settings in your configuration files
+(e.g. local.conf) as follows:
+
+	for rk3288:
+		DEFAULTTUNE = "cortexa17hf-neon-vfpv4"
+	for rk3066:
+		DEFAULTTUNE = "cortexa9-neon"

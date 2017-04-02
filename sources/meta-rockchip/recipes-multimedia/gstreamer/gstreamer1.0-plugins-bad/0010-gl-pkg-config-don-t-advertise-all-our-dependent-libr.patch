@@ -1,0 +1,39 @@
+From a030e64a31d7186fefb98ed1298c58fab39369b5 Mon Sep 17 00:00:00 2001
+From: Matthew Waters <matthew@centricular.com>
+Date: Thu, 17 Nov 2016 17:51:54 +1100
+Subject: [PATCH] gl/pkg-config: don't advertise all our dependent libraries as
+ deps
+
+If an application/library explicitly needs a library, it needs to link
+against it itself.
+---
+ pkgconfig/gstreamer-gl-uninstalled.pc.in | 2 +-
+ pkgconfig/gstreamer-gl.pc.in             | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pkgconfig/gstreamer-gl-uninstalled.pc.in b/pkgconfig/gstreamer-gl-uninstalled.pc.in
+index 1d29559..a21ac46 100644
+--- a/pkgconfig/gstreamer-gl-uninstalled.pc.in
++++ b/pkgconfig/gstreamer-gl-uninstalled.pc.in
+@@ -10,6 +10,6 @@ Description: Streaming media framework, OpenGL plugins libraries, uninstalled
+ Version: @VERSION@
+ Requires: gstreamer-base-@GST_API_VERSION@ gstreamer-@GST_API_VERSION@
+ 
+-Libs: -L${libdir} -lgstgl-@GST_API_VERSION@ @GL_LIBS@
++Libs: -L${libdir} -lgstgl-@GST_API_VERSION@
+ Cflags: -I@abs_top_srcdir@/gst-libs -I@abs_top_builddir@/gst-libs
+ 
+diff --git a/pkgconfig/gstreamer-gl.pc.in b/pkgconfig/gstreamer-gl.pc.in
+index 112ce21..a3a9dc6 100644
+--- a/pkgconfig/gstreamer-gl.pc.in
++++ b/pkgconfig/gstreamer-gl.pc.in
+@@ -9,5 +9,5 @@ Description: Streaming media framework, OpenGL plugins libraries
+ Version: @VERSION@
+ Requires: gstreamer-base-@GST_API_VERSION@ gstreamer-@GST_API_VERSION@
+ 
+-Libs: -L${libdir} -lgstgl-@GST_API_VERSION@ @GL_LIBS@
++Libs: -L${libdir} -lgstgl-@GST_API_VERSION@
+ Cflags: -I${includedir} -I${libdir}/gstreamer-@GST_API_VERSION@/include @GL_CFLAGS@
+-- 
+2.7.4
+

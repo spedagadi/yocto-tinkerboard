@@ -1,0 +1,34 @@
+From 064cd293ac8351f77eada971e24fb72bb0bb0568 Mon Sep 17 00:00:00 2001
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Mon, 19 Oct 2015 18:22:47 +0200
+Subject: [PATCH] futility: fix warning treated as error about uninitialized
+ value
+
+---
+ futility/futility.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/futility/futility.c b/futility/futility.c
+index 60cc9c5..edd4c56 100644
+--- a/futility/futility.c
++++ b/futility/futility.c
+@@ -230,7 +230,7 @@ static int run_command(const struct futil_cmd_t *cmd, int argc, char *argv[])
+ static int do_help(int argc, char *argv[])
+ {
+ 	const struct futil_cmd_t *cmd;
+-	const char *vstr;
++	const char *vstr = "";
+ 
+ 	/* Help about a known command? */
+ 	if (argc > 1) {
+@@ -256,7 +256,6 @@ static int do_help(int argc, char *argv[])
+ 		vstr = "version 2.1 ";
+ 		break;
+ 	case VBOOT_VERSION_ALL:
+-		vstr = "";
+ 		break;
+ 	}
+ 	printf("The following %scommands are built-in:\n\n", vstr);
+-- 
+2.1.4
+

@@ -1,0 +1,35 @@
+From c2410e3cd13b69054d7436c5fbb1a6044b853444 Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob-chen@iotwrt.com>
+Date: Thu, 2 Mar 2017 16:24:35 +0800
+Subject: [PATCH] fix yocto build error
+
+Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+---
+ drivers/net/wireless/Makefile                        | 2 +-
+ drivers/net/wireless/rockchip_wlan/wifi_sys/Makefile | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/net/wireless/rockchip_wlan/wifi_sys/Makefile
+
+diff --git a/drivers/net/wireless/Makefile b/drivers/net/wireless/Makefile
+index 7171523..c2cc474 100644
+--- a/drivers/net/wireless/Makefile
++++ b/drivers/net/wireless/Makefile
+@@ -1,7 +1,7 @@
+ #
+ # Makefile for the Linux Wireless network device drivers.
+ #
+-obj-y += rockchip_wlan/wifi_sys/rkwifi_sys_iface.o
++obj-y += rockchip_wlan/wifi_sys/
+ obj-$(CONFIG_RTL8192CU)        += rockchip_wlan/rtl8192cu/
+ obj-$(CONFIG_RTL8192DU)        += rockchip_wlan/rtl8192du/
+ obj-$(CONFIG_RTL8188EU)	       += rockchip_wlan/rtl8188eu/
+diff --git a/drivers/net/wireless/rockchip_wlan/wifi_sys/Makefile b/drivers/net/wireless/rockchip_wlan/wifi_sys/Makefile
+new file mode 100644
+index 0000000..148c8bc
+--- /dev/null
++++ b/drivers/net/wireless/rockchip_wlan/wifi_sys/Makefile
+@@ -0,0 +1 @@
++obj-y := rkwifi_sys_iface.o
+-- 
+2.7.4
+

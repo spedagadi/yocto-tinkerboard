@@ -1,0 +1,41 @@
+From fc28debedc298cdd19e0327ac416c0e51a74fe6d Mon Sep 17 00:00:00 2001
+From: Romain Perier <romain.perier@gmail.com>
+Date: Fri, 2 Dec 2016 18:46:33 +0100
+Subject: [PATCH] Some other fixes
+
+Signed-off-by: Romain Perier <romain.perier@free-electrons.com>
+---
+ drivers/net/wireless/Makefile | 2 +-
+ kernel/timeconst.pl           | 3 ---
+ 2 files changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/net/wireless/Makefile b/drivers/net/wireless/Makefile
+index becd320..a8fbdb7 100755
+--- a/drivers/net/wireless/Makefile
++++ b/drivers/net/wireless/Makefile
+@@ -1,7 +1,7 @@
+ #
+ # Makefile for the Linux Wireless network device drivers.
+ #
+-obj-y += wifi_sys/rkwifi_sys_iface.o
++obj-y += $(realpath wifi_sys/rkwifi_sys_iface.o)
+ obj-$(CONFIG_BCM4329)   += bcm4329/
+ obj-$(CONFIG_MV8686)   += mv8686/
+ obj-$(CONFIG_BCM4319)   += bcm4319/
+diff --git a/kernel/timeconst.pl b/kernel/timeconst.pl
+index eb51d76..82266f5 100644
+--- a/kernel/timeconst.pl
++++ b/kernel/timeconst.pl
+@@ -370,9 +370,6 @@ if ($hz eq '--can') {
+ 	}
+ 
+ 	@val = @{$canned_values{$hz}};
+-	if (!defined(@val)) {
+-		@val = compute_values($hz);
+-	}
+ 	output($hz, @val);
+ }
+ exit 0;
+-- 
+2.9.3
+

@@ -1,0 +1,44 @@
+From 5a091f5af123821cec5b0bf71cdf39f5e4c6a0fb Mon Sep 17 00:00:00 2001
+From: Arindam Nath <arindam.nath@amd.com>
+Date: Sun, 17 Jan 2016 12:47:01 +0530
+Subject: [PATCH 1/1] force link pass.o
+
+Upstream Status: None (OE specific)
+
+Signed-off-by: Arindam Nath <arindam.nath@amd.com>
+---
+ tools/bugpoint/Makefile | 3 +++
+ tools/opt/Makefile      | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/tools/bugpoint/Makefile b/tools/bugpoint/Makefile
+index 174f8d2..dfde77c 100644
+--- a/tools/bugpoint/Makefile
++++ b/tools/bugpoint/Makefile
+@@ -12,6 +12,9 @@ TOOLNAME := bugpoint
+ LINK_COMPONENTS := asmparser instrumentation scalaropts ipo linker bitreader \
+                    bitwriter irreader vectorize objcarcopts codegen
+ 
++# Crappy workaround to make sure it links correctly.
++LLVMLibsOptions := ../../lib/IR/Release*/Pass.o
++
+ # Support plugins.
+ NO_DEAD_STRIP := 1
+ 
+diff --git a/tools/opt/Makefile b/tools/opt/Makefile
+index 2422eb4..79ab3f7 100644
+--- a/tools/opt/Makefile
++++ b/tools/opt/Makefile
+@@ -11,6 +11,9 @@ LEVEL := ../..
+ TOOLNAME := opt
+ LINK_COMPONENTS := bitreader bitwriter asmparser irreader instrumentation scalaropts objcarcopts ipo vectorize all-targets codegen passes
+ 
++# Crappy workaround to make sure it links correctly.
++LLVMLibsOptions := ../../lib/IR/Release*/Pass.o
++
+ # Support plugins.
+ NO_DEAD_STRIP := 1
+ 
+-- 
+1.9.1
+

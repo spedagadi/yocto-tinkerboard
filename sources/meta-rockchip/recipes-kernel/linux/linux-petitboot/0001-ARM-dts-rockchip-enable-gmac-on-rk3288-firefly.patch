@@ -1,0 +1,46 @@
+From 60eb1f94a1747e721bb7ce29524c9acd06a887b8 Mon Sep 17 00:00:00 2001
+From: Heiko Stuebner <heiko@sntech.de>
+Date: Fri, 20 Feb 2015 01:31:57 +0100
+Subject: [PATCH] ARM: dts: rockchip: enable gmac on rk3288-firefly
+
+This was left out of the original firefly board definition due to the
+ethernet support going completely through the network tree, making the
+underlying nodes unavailable.
+
+Now that everything is present enable the gmac on the firefly.
+
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+---
+ arch/arm/boot/dts/rk3288-firefly.dtsi | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/arch/arm/boot/dts/rk3288-firefly.dtsi b/arch/arm/boot/dts/rk3288-firefly.dtsi
+index e6f873a..9851453 100644
+--- a/arch/arm/boot/dts/rk3288-firefly.dtsi
++++ b/arch/arm/boot/dts/rk3288-firefly.dtsi
+@@ -179,6 +179,22 @@
+ 	status = "okay";
+ };
+ 
++&gmac {
++	assigned-clocks = <&cru SCLK_MAC>;
++	assigned-clock-parents = <&ext_gmac>;
++	clock_in_out = "input";
++	pinctrl-names = "default";
++	pinctrl-0 = <&rgmii_pins>, <&phy_rst>, <&phy_pmeb>, <&phy_int>;
++	phy-supply = <&vcc_lan>;
++	phy-mode = "rgmii";
++	snps,reset-active-low;
++	snps,reset-delays-us = <0 10000 1000000>;
++	snps,reset-gpio = <&gpio4 8 GPIO_ACTIVE_LOW>;
++	tx_delay = <0x30>;
++	rx_delay = <0x10>;
++	status = "ok";
++};
++
+ &hdmi {
+ 	ddc-i2c-bus = <&i2c5>;
+ 	status = "okay";
+-- 
+1.9.1
+

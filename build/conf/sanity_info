@@ -1,0 +1,4 @@
+SANITY_VERSION 1
+TMPDIR /home/sateesh/tinkerboard/build/tmp
+SSTATE_DIR /home/sateesh/tinkerboard/build/sstate-cache
+NATIVELSBSTRING Ubuntu-16.04

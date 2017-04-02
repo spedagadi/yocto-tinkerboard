@@ -1,0 +1,96 @@
+>From 598e3aebdc2a9e27d9a4b2a69c6f2670219841e2 Mon Sep 17 00:00:00 2001
+From: Mark Yao <mark.yao@rock-chips.com>
+Date: Thu, 16 Feb 2017 08:47:29 +0800
+Subject: [PATCH] weston: support drm nv12_10 video overlay
+
+Signed-off-by: Mark Yao <mark.yao@rock-chips.com>
+---
+ src/gl-renderer.c   | 22 +++++++++++++++++++++-
+ src/pixel-formats.c | 10 +++++++++-
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+
+diff --git a/src/gl-renderer.c b/src/gl-renderer.c
+index c6091af..140db9b 100644
+--- a/src/gl-renderer.c
++++ b/src/gl-renderer.c
+@@ -49,6 +49,7 @@
+ #include "shared/platform.h"
+ #include "weston-egl-ext.h"
+ 
++#define DRM_FORMAT_NV12_10            fourcc_code('N', 'A', '1', '2')
+ struct gl_shader {
+ 	GLuint program;
+ 	GLuint vertex_shader, fragment_shader;
+@@ -1589,7 +1590,10 @@ import_simple_dmabuf(struct gl_renderer *gr,
+ 	attribs[atti++] = EGL_HEIGHT;
+ 	attribs[atti++] = attributes->height;
+ 	attribs[atti++] = EGL_LINUX_DRM_FOURCC_EXT;
+-	attribs[atti++] = attributes->format;
++	if (attributes->format == DRM_FORMAT_NV12_10)
++		attribs[atti++] = DRM_FORMAT_NV12;
++	else
++		attribs[atti++] = attributes->format;
+ 	/* XXX: Add modifier here when supported */
+ 
+ 	if (attributes->n_planes > 0) {
+@@ -1673,6 +1677,22 @@ struct yuv_format_descriptor yuv_formats[] = {
+ 			.plane_index = 1
+ 		}}
+ 	}, {
++		.format = DRM_FORMAT_NV12_10,
++		.input_planes = 2,
++		.output_planes = 2,
++		.texture_type = EGL_TEXTURE_Y_UV_WL,
++		{{
++			.width_divisor = 1,
++			.height_divisor = 1,
++			.format = DRM_FORMAT_R8,
++			.plane_index = 0
++		}, {
++			.width_divisor = 2,
++			.height_divisor = 2,
++			.format = DRM_FORMAT_GR88,
++			.plane_index = 1
++		}}
++	}, {
+ 		.format = DRM_FORMAT_YUV420,
+ 		.input_planes = 3,
+ 		.output_planes = 3,
+diff --git a/src/pixel-formats.c b/src/pixel-formats.c
+index 2a10b18..0fe1ce7 100644
+--- a/src/pixel-formats.c
++++ b/src/pixel-formats.c
+@@ -28,7 +28,7 @@
+ #include <inttypes.h>
+ #include <stdbool.h>
+ #include <unistd.h>
+-#include <drm/drm_fourcc.h>
++#include <libdrm/drm_fourcc.h>
+ 
+ #include "helpers.h"
+ #include "wayland-util.h"
+@@ -41,6 +41,7 @@
+ 
+ #include "weston-egl-ext.h"
+ 
++#define DRM_FORMAT_NV12_10            fourcc_code('N', 'A', '1', '2')
+ /**
+  * Table of DRM formats supported by Weston; RGB, ARGB and YUV formats are
+  * supported. Indexed/greyscale formats, and formats not containing complete
+@@ -257,6 +258,13 @@ static const struct pixel_format_info pixel_format_table[] = {
+ 		.vsub = 2,
+ 	},
+ 	{
++		.format = DRM_FORMAT_NV12_10,
++		.sampler_type = EGL_TEXTURE_Y_UV_WL,
++		.num_planes = 2,
++		.hsub = 2,
++		.vsub = 2,
++	},
++	{
+ 		.format = DRM_FORMAT_NV21,
+ 		.sampler_type = EGL_TEXTURE_Y_UV_WL,
+ 		.num_planes = 2,
+-- 
+1.9.1
+

@@ -1,0 +1,27 @@
+From 9c3d4d8a9f42e05f7a5092ccd7a1e2ae6c1c7967 Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 11 Jul 2016 15:22:09 +0200
+Subject: [PATCH] sna_display: fix printf to distinguish between 24Hz and
+ 23.976Hz
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ src/sna/sna_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/sna/sna_display.c b/src/sna/sna_display.c
+index 10d33f2..4cbe604 100644
+--- a/src/sna/sna_display.c
++++ b/src/sna/sna_display.c
+@@ -2962,7 +2962,7 @@ sna_crtc_set_mode_major(xf86CrtcPtr crtc, DisplayModePtr mode,
+ 	assert(sna_crtc);
+ 
+ 	xf86DrvMsg(crtc->scrn->scrnIndex, X_INFO,
+-		   "switch to mode %dx%d@%.1f on %s using pipe %d, position (%d, %d), rotation %s, reflection %s\n",
++		   "switch to mode %dx%d@%.3f on %s using pipe %d, position (%d, %d), rotation %s, reflection %s\n",
+ 		   mode->HDisplay, mode->VDisplay, xf86ModeVRefresh(mode),
+ 		   outputs_for_crtc(crtc, outputs, sizeof(outputs)), __sna_crtc_pipe(sna_crtc),
+ 		   x, y, rotation_to_str(rotation), reflection_to_str(rotation));
+-- 
+2.0.1
+

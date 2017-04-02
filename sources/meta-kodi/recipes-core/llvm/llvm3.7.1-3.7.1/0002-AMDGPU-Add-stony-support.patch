@@ -1,0 +1,27 @@
+From 233e6796cf5f9bfadc049e19874b091d42f50900 Mon Sep 17 00:00:00 2001
+From: Arindam Nath <arindam.nath@amd.com>
+Date: Tue, 22 Mar 2016 15:48:17 +0530
+Subject: [PATCH 2/2] AMDGPU: Add stony support
+
+Patch by: Alex Deucher
+
+git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@253053 91177308-0d34-0410-b5e6-96231b3b80d8
+---
+ lib/Target/AMDGPU/Processors.td | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/lib/Target/AMDGPU/Processors.td b/lib/Target/AMDGPU/Processors.td
+index d9a0723..a1584a2 100644
+--- a/lib/Target/AMDGPU/Processors.td
++++ b/lib/Target/AMDGPU/Processors.td
+@@ -142,3 +142,7 @@ def : ProcessorModel<"carrizo", SIQuarterSpeedModel,
+ def : ProcessorModel<"fiji", SIQuarterSpeedModel,
+   [FeatureVolcanicIslands, FeatureISAVersion8_0_1]
+ >;
++
++def : ProcessorModel<"stoney", SIQuarterSpeedModel,
++  [FeatureVolcanicIslands, FeatureISAVersion8_0_1]
++>;
+-- 
+1.9.1
+

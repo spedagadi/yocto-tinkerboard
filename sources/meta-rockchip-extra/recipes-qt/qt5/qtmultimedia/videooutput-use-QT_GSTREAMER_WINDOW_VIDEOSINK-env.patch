@@ -1,0 +1,25 @@
+From 04886d0bed9a71bd804b53cac3383b70a77dfc14 Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob2.chen@rock-chips.com>
+Date: Wed, 1 Mar 2017 09:33:37 +0800
+Subject: [PATCH] videooutput use QT_GSTREAMER_WINDOW_VIDEOSINK env
+
+---
+ src/qtmultimediaquicktools/qdeclarativevideooutput.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/qtmultimediaquicktools/qdeclarativevideooutput.cpp b/src/qtmultimediaquicktools/qdeclarativevideooutput.cpp
+index 4fc7684..4133452 100644
+--- a/src/qtmultimediaquicktools/qdeclarativevideooutput.cpp
++++ b/src/qtmultimediaquicktools/qdeclarativevideooutput.cpp
+@@ -248,7 +248,7 @@ bool QDeclarativeVideoOutput::createBackend(QMediaService *service)
+         }
+     }
+ 
+-    if (!backendAvailable) {
++    if (!backendAvailable && qgetenv( "QT_GSTREAMER_WINDOW_VIDEOSINK" ).isEmpty()) {
+         m_backend.reset(new QDeclarativeVideoRendererBackend(this));
+         if (m_backend->init(service))
+             backendAvailable = true;
+-- 
+1.9.1
+

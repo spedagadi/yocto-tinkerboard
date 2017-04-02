@@ -1,0 +1,38 @@
+From f88598eb3e11c903cfd7f8c1d0e5e8949f5f3f9e Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 8 Jan 2017 11:33:46 +0100
+Subject: [PATCH 2/3] library/movies: switch 'genre' and 'recently added'
+
+This makes 'recently added' the first entry.
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ system/library/video/movies/genres.xml              | 2 +-
+ system/library/video/movies/recentlyaddedmovies.xml | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/system/library/video/movies/genres.xml b/system/library/video/movies/genres.xml
+index f3fdf26..94fa1d3 100644
+--- a/system/library/video/movies/genres.xml
++++ b/system/library/video/movies/genres.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+-<node order="1" type="filter">
++<node order="10" type="filter">
+   <label>135</label>
+   <icon>DefaultGenre.png</icon>
+   <content>movies</content>
+diff --git a/system/library/video/movies/recentlyaddedmovies.xml b/system/library/video/movies/recentlyaddedmovies.xml
+index 1363d4b..943dc8f 100644
+--- a/system/library/video/movies/recentlyaddedmovies.xml
++++ b/system/library/video/movies/recentlyaddedmovies.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+-<node order="10" type="folder" visible="Library.HasContent(Movies)">
++<node order="1" type="folder" visible="Library.HasContent(Movies)">
+   <label>20386</label>
+   <icon>DefaultRecentlyAddedMovies.png</icon>
+   <path>videodb://recentlyaddedmovies/</path>
+-- 
+2.0.1
+

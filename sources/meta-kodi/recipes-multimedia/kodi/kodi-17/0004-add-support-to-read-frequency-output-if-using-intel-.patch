@@ -1,0 +1,26 @@
+From 8b56b67b7a65b5027c929f2b6d119ab0bafbca9a Mon Sep 17 00:00:00 2001
+From: Stephan Raue <stephan@openelec.tv>
+Date: Mon, 1 Sep 2014 03:16:37 +0200
+Subject: [PATCH 4/5] add support to read frequency output if using intel's
+ pstate driver
+
+---
+ xbmc/utils/CPUInfo.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/xbmc/utils/CPUInfo.cpp b/xbmc/utils/CPUInfo.cpp
+index a2a775f..4dff0e9 100644
+--- a/xbmc/utils/CPUInfo.cpp
++++ b/xbmc/utils/CPUInfo.cpp
+@@ -269,6 +269,8 @@ CCPUInfo::CCPUInfo(void)
+     m_fProcTemperature = fopen("/sys/class/thermal/thermal_zone0/temp", "r");  // On Raspberry PIs
+ 
+   m_fCPUFreq = fopen ("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq", "r");
++  if (m_fCPUFreq == NULL)
++    m_fCPUFreq = fopen ("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq", "r");
+   if (!m_fCPUFreq)
+   {
+     m_cpuInfoForFreq = true;
+-- 
+2.0.1
+

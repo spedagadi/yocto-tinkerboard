@@ -1,0 +1,26 @@
+From 1850301dca7496f136b8861476b29d8c047fd404 Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob2.chen@rock-chips.com>
+Date: Tue, 28 Feb 2017 16:29:27 +0800
+Subject: [PATCH] add drm rockchip
+
+---
+ src/native-state-drm.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/native-state-drm.cpp b/src/native-state-drm.cpp
+index 4df75ec..3e20fce 100644
+--- a/src/native-state-drm.cpp
++++ b/src/native-state-drm.cpp
+@@ -205,7 +205,8 @@ NativeStateDRM::init()
+         "radeon",
+         "vmgfx",
+         "omapdrm",
+-        "exynos"
++        "exynos",
++        "rockchip"
+     };
+ 
+     unsigned int num_modules(sizeof(drm_modules)/sizeof(drm_modules[0]));
+-- 
+1.9.1
+

@@ -1,0 +1,28 @@
+From 5afb8eea9277e8988127b2afbcb14e92b8a02ad9 Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 29 Jul 2016 17:11:33 +0200
+Subject: [PATCH] freedreno: disable error check to make it continue
+
+The generate files seems to be OK, no idea why the error triggers
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ src/gallium/drivers/freedreno/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gallium/drivers/freedreno/Makefile.am b/src/gallium/drivers/freedreno/Makefile.am
+index 148dd0e..2352f00 100644
+--- a/src/gallium/drivers/freedreno/Makefile.am
++++ b/src/gallium/drivers/freedreno/Makefile.am
+@@ -11,7 +11,7 @@ AM_CFLAGS = \
+ 
+ ir3/ir3_nir_trig.c: ir3/ir3_nir_trig.py $(top_srcdir)/src/compiler/nir/nir_algebraic.py
+ 	$(MKDIR_GEN)
+-	$(AM_V_GEN) PYTHONPATH=$(top_srcdir)/src/compiler/nir $(PYTHON2) $(PYTHON_FLAGS) $(srcdir)/ir3/ir3_nir_trig.py > $@ || ($(RM) $@; false)
++	$(AM_V_GEN) PYTHONPATH=$(top_srcdir)/src/compiler/nir $(PYTHON2) $(PYTHON_FLAGS) $(srcdir)/ir3/ir3_nir_trig.py > $@ || echo "Something went wrong"
+ 
+ noinst_LTLIBRARIES = libfreedreno.la
+ 
+-- 
+2.0.1
+

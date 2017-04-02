@@ -1,0 +1,69 @@
+From ff6c85da0fb1727263ae0aa7f7865365e5ffb4dd Mon Sep 17 00:00:00 2001
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 9 Jan 2017 15:19:19 +0100
+Subject: [PATCH 3/3] estuary: move 'recently added' entries to the top in home
+ screen
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ addons/skin.estuary/xml/Home.xml | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/addons/skin.estuary/xml/Home.xml b/addons/skin.estuary/xml/Home.xml
+index 0d04a02..3faec7e 100644
+--- a/addons/skin.estuary/xml/Home.xml
++++ b/addons/skin.estuary/xml/Home.xml
+@@ -57,18 +57,18 @@
+ 							<param name="list_id" value="5900"/>
+ 						</include>
+ 						<include content="WidgetListPoster" condition="Library.HasContent(movies)">
+-							<param name="content_path" value="special://skin/playlists/inprogress_movies.xsp"/>
+-							<param name="widget_header" value="$LOCALIZE[31010]"/>
+-							<param name="widget_target" value="videos"/>
+-							<param name="list_id" value="5100"/>
+-						</include>
+-						<include content="WidgetListPoster" condition="Library.HasContent(movies)">
+ 							<param name="content_path" value="special://skin/playlists/recent_unwatched_movies.xsp"/>
+ 							<param name="widget_header" value="$LOCALIZE[20386]"/>
+ 							<param name="widget_target" value="videos"/>
+ 							<param name="list_id" value="5200"/>
+ 						</include>
+ 						<include content="WidgetListPoster" condition="Library.HasContent(movies)">
++							<param name="content_path" value="special://skin/playlists/inprogress_movies.xsp"/>
++							<param name="widget_header" value="$LOCALIZE[31010]"/>
++							<param name="widget_target" value="videos"/>
++							<param name="list_id" value="5100"/>
++						</include>
++						<include content="WidgetListPoster" condition="Library.HasContent(movies)">
+ 							<param name="content_path" value="special://skin/playlists/unwatched_movies.xsp"/>
+ 							<param name="widget_header" value="$LOCALIZE[31007]"/>
+ 							<param name="widget_target" value="videos"/>
+@@ -117,6 +117,12 @@
+ 							<param name="widget_target" value="videos"/>
+ 							<param name="list_id" value="6900"/>
+ 						</include>
++						<include content="WidgetListEpisodes" condition="Library.HasContent(tvshows)">
++							<param name="content_path" value="special://skin/playlists/recent_unwatched_episodes.xsp"/>
++							<param name="widget_header" value="$LOCALIZE[20387]"/>
++							<param name="widget_target" value="videos"/>
++							<param name="list_id" value="6200"/>
++						</include>
+ 						<include content="WidgetListPoster" condition="Library.HasContent(tvshows)">
+ 							<param name="content_path" value="videodb://inprogresstvshows"/>
+ 							<param name="sortby" value="lastplayed"/>
+@@ -125,12 +131,6 @@
+ 							<param name="widget_target" value="videos"/>
+ 							<param name="list_id" value="6100"/>
+ 						</include>
+-						<include content="WidgetListEpisodes" condition="Library.HasContent(tvshows)">
+-							<param name="content_path" value="special://skin/playlists/recent_unwatched_episodes.xsp"/>
+-							<param name="widget_header" value="$LOCALIZE[20387]"/>
+-							<param name="widget_target" value="videos"/>
+-							<param name="list_id" value="6200"/>
+-						</include>
+ 						<include content="WidgetListPoster" condition="Library.HasContent(tvshows)">
+ 							<param name="content_path" value="special://skin/playlists/unwatched_tvshows.xsp"/>
+ 							<param name="widget_header" value="$LOCALIZE[31122]"/>
+-- 
+2.0.1
+
