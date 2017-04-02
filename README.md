@@ -14,8 +14,8 @@ You will have to edit build/conf/local.conf to enable/disable the modules you pr
 
 # Building Yocto OS #
 
-$ . ./setup-environment
-$ core-image-sato
+### $ . ./setup-environment ###
+### $ bitbake core-image-sato ###
 
 I haven't played around with Kodi
 
