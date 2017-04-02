@@ -17,9 +17,8 @@ You will have to edit build/conf/local.conf to enable/disable the modules you pr
 ### $ . ./setup-environment ###
 ### $ bitbake core-image-sato ###
 
-I haven't played around with Kodi
 
-Rockchip's yocto instructions are here http://rockchip.wikidot.com/yocto-user-guide and have been hugely helpful
+Rockchip's yocto instructions are here http://rockchip.wikidot.com/yocto-user-guide and have been hugely helpful.
 Rockchip linux group - https://github.com/rockchip-linux
 
 
